@@ -1,0 +1,18 @@
+{
+  "name": "lcars-projectapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^3.3.1",
+    "@sveltejs/kit": "^2.5.18",
+    "svelte": "^5.38.1",
+    "vite": "^7.1.2",
+    "typescript": "^5.5.4"
+  }
+}
