@@ -30,12 +30,19 @@ missions.subscribe(v=>{ if(browser) localStorage.setItem(KEY, JSON.stringify(v))
 export const metrics = derived(missions, ($m)=>{
   const status = { Active:0, Hold:0, Done:0 } as Record<Mission['status'],number>;
   const priority = { 1:0, 2:0, 3:0, 4:0 } as Record<Mission['priority'],number>;
+  const tasksByStatus = { 'To Do':0, 'In Progress':0, 'Done':0 } as Record<Task['status'], number>;
   let tasksOpen=0, tasksAll=0, overdue=0; const now=new Date();
-  for(const m of $m){ status[m.status]++; priority[m.priority]++;
-    for(const t of m.tasks){ tasksAll++; if(t.status!=='Done') tasksOpen++; }
+  for(const m of $m){
+    status[m.status]++;
+    priority[m.priority]++;
+    for(const t of m.tasks){
+      tasksAll++;
+      if(t.status!=='Done') tasksOpen++;
+      tasksByStatus[t.status]++;
+    }
     if(new Date(m.due) < now && m.status!=='Done') overdue++;
   }
-  return { status, priority, tasksOpen, tasksAll, overdue };
+  return { status, priority, tasksOpen, tasksAll, overdue, tasksByStatus };
 });
 export const redAlert = derived(metrics, ($)=> $.overdue>0);
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { missions, metrics, nano } from '$lib/stores/missions';
   import { get } from 'svelte/store';
+  import Modal from '$lib/components/Modal.svelte';
   let q=''; let showMission=false; let showTask=false; let taskMissionId='';
   let draftMission={ id:nano(), name:'', dept:'Engineering', priority:2, status:'Active', due:new Date().toISOString().slice(0,10), tasks:[] } as any;
   let draftTask={ id:nano(), title:'', status:'To Do' } as any;
@@ -68,39 +69,24 @@
   </div>
 </section>
 
-<!-- Mission modal -->
-{#if showMission}
-  <div class="modal" on:click={()=>(showMission=false)}>
-    <div class="dialog" on:click|stopPropagation>
-      <h3>Ny mission</h3>
-      <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
-        <label>Navn<input bind:value={draftMission.name}></label>
-        <label>Afdeling<select bind:value={draftMission.dept}><option>Engineering</option><option>Science</option><option>Command</option></select></label>
-        <label>Prioritet<select bind:value={draftMission.priority}><option value={1}>1</option><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option></select></label>
-        <label>Status<select bind:value={draftMission.status}><option>Active</option><option>Hold</option><option>Done</option></select></label>
-        <label style="grid-column:1/-1">Deadline<input type="date" bind:value={draftMission.due}></label>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn accent" on:click={addMission}>Opret</button><button class="btn ghost" on:click={()=>(showMission=false)}>Luk</button></div>
-    </div>
+<Modal title="Ny mission" open={showMission} onClose={() => (showMission=false)}>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
+    <label>Navn<input bind:value={draftMission.name}></label>
+    <label>Afdeling<select bind:value={draftMission.dept}><option>Engineering</option><option>Science</option><option>Command</option></select></label>
+    <label>Prioritet<select bind:value={draftMission.priority}><option value={1}>1</option><option value={2}>2</option><option value={3}>3</option><option value={4}>4</option></select></label>
+    <label>Status<select bind:value={draftMission.status}><option>Active</option><option>Hold</option><option>Done</option></select></label>
+    <label style="grid-column:1/-1">Deadline<input type="date" bind:value={draftMission.due}></label>
   </div>
-{/if}
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn accent" on:click={addMission}>Opret</button><button class="btn ghost" on:click={()=>(showMission=false)}>Luk</button></div>
+</Modal>
 
-<!-- Task modal -->
-{#if showTask}
-  <div class="modal" on:click={()=>(showTask=false)}>
-    <div class="dialog" on:click|stopPropagation>
-      <h3>Ny opgave</h3>
-      <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
-        <label style="grid-column:1/-1">Mission<select bind:value={taskMissionId}><option value="" disabled selected>Vælg mission…</option>{#each $missions as m}<option value={m.id}>{m.name}</option>{/each}</select></label>
-        <label style="grid-column:1/-1">Titel<input bind:value={draftTask.title}></label>
-        <label>Status<select bind:value={draftTask.status}><option>To Do</option><option>In Progress</option><option>Done</option></select></label>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn accent" on:click={addTask}>Tilføj</button><button class="btn ghost" on:click={()=>(showTask=false)}>Luk</button></div>
-    </div>
+<Modal title="Ny opgave" open={showTask} onClose={() => (showTask=false)}>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
+    <label style="grid-column:1/-1">Mission<select bind:value={taskMissionId}><option value="" disabled selected>Vælg mission…</option>{#each $missions as m}<option value={m.id}>{m.name}</option>{/each}</select></label>
+    <label style="grid-column:1/-1">Titel<input bind:value={draftTask.title}></label>
+    <label>Status<select bind:value={draftTask.status}><option>To Do</option><option>In Progress</option><option>Done</option></select></label>
   </div>
-{/if}
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn accent" on:click={addTask}>Tilføj</button><button class="btn ghost" on:click={()=>(showTask=false)}>Luk</button></div>
+</Modal>
 
-<style>
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:12px}
-.dialog{background:#0b0b0b;border:2px solid var(--line);border-radius:18px;padding:14px;min-width:320px;max-width:90vw}
-</style>
+<style></style>

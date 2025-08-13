@@ -1,8 +1,12 @@
-<script lang="ts">export let open=false; export let title='';</script>
+<script lang="ts">
+  export let open=false; export let title='';
+  export let onClose: () => void = () => {};
+  function handleKey(e: KeyboardEvent){ if(e.key==='Escape' || e.key==='Enter' || e.key===' '){ onClose(); } }
+</script>
 {#if open}
-<div class="modal" on:click>{/* backdrop */}
-  <div class="dialog" on:click|stopPropagation>
-    <h3>{title}</h3>
+<div class="modal" role="button" tabindex="0" aria-label="Luk modal" on:click={onClose} on:keydown={handleKey}>
+  <div class="dialog" role="dialog" aria-modal="true" tabindex="-1" on:click|stopPropagation on:keydown={handleKey}>
+    {#if title}<h3>{title}</h3>{/if}
     <slot />
   </div>
 </div>

@@ -2,18 +2,25 @@
   import { metrics } from '$lib/stores/missions';
 </script>
 
-<div class="panel">
-  <div class="panel-title">Sensor Analysis</div>
-  <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
-    <div class="panel">
-      <h3 style="margin-top:0">Tasks by Status</h3>
-      <svg viewBox="0 0 100 50" style="width:100%;height:160px;background:#0b0b0b;border-radius:12px">
-        <!-- simple bar chart -->
-        <g fill="var(--blue)"><rect x="10" y="{50-($metrics.status.Active*8)}" width="16" height="{$metrics.status.Active*8}"/></g>
-        <g fill="var(--line)"><rect x="42" y="{50-($metrics.status.Hold*8)}" width="16" height="{$metrics.status.Hold*8}"/></g>
-        <g fill="#7dbf5b"><rect x="74" y="{50-($metrics.status.Done*8)}" width="16" height="{$metrics.status.Done*8}"/></g>
-      </svg>
-    </div>
+  <div class="panel">
+    <div class="panel-title">Sensor Analysis</div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="panel">
+        <h3 style="margin-top:0">Tasks by Status</h3>
+        <svg viewBox="0 0 100 60" style="width:100%;height:160px;background:#0b0b0b;border-radius:12px">
+          <!-- simple bar chart using tasksByStatus: To Do, In Progress, Done -->
+          <g>
+            <rect x="12" y="{58-($metrics.tasksByStatus['To Do']*10)}" width="16" height="{$metrics.tasksByStatus['To Do']*10}" fill="var(--line)" />
+            <rect x="42" y="{58-($metrics.tasksByStatus['In Progress']*10)}" width="16" height="{$metrics.tasksByStatus['In Progress']*10}" fill="var(--blue)" />
+            <rect x="72" y="{58-($metrics.tasksByStatus['Done']*10)}" width="16" height="{$metrics.tasksByStatus['Done']*10}" fill="#7dbf5b" />
+          </g>
+        </svg>
+        <div class="legend" style="display:flex;gap:10px;font-size:12px;color:var(--dim)">
+          <span>To Do: {$metrics.tasksByStatus['To Do']}</span>
+          <span>In Progress: {$metrics.tasksByStatus['In Progress']}</span>
+          <span>Done: {$metrics.tasksByStatus['Done']}</span>
+        </div>
+      </div>
     <div class="panel">
       <h3 style="margin-top:0">Priority Distribution</h3>
       <svg viewBox="0 0 100 20" style="width:100%;height:60px;background:#0b0b0b;border-radius:12px">

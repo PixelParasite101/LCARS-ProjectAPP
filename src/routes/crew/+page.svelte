@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { missions, nano } from '$lib/stores/missions';
-  // Simpel crew-liste gemt i localStorage ved at genbruge missions som namespace
-  // (i en rigtig app ville vi lave et separat store)
-  let crew = JSON.parse(localStorage.getItem('lcars-crew')||'[]');
-  $: localStorage.setItem('lcars-crew', JSON.stringify(crew));
-  let draft = { id:nano(), name:'', role:'' };
-  const add = ()=>{ crew=[{...draft, id:nano()}, ...crew]; draft={id:nano(), name:'', role:''}; };
-  const del = (id:string)=> crew = crew.filter((c:any)=>c.id!==id);
+  import { nano } from '$lib/stores/missions';
+  import { crew, type Crew } from '$lib/stores/crew';
+
+  let draft: Crew = { id: nano(), name: '', role: '' };
+  const add = () => {
+    crew.update(list => [{ ...draft, id: nano() }, ...list]);
+    draft = { id: nano(), name: '', role: '' };
+  };
+  const del = (id: string) => crew.update(list => list.filter(c => c.id !== id));
 </script>
 
 <div class="panel">
@@ -17,13 +18,13 @@
     <div style="grid-column:1/-1;display:flex;justify-content:flex-end"><button class="btn accent" on:click={add}>Tilføj medlem</button></div>
   </div>
   <div class="table">
-    {#each crew as c}
+    {#each $crew as c}
       <div class="row" style="grid-template-columns:1fr 1fr auto">
         <div>{c.name}</div>
         <div>{c.role}</div>
         <button class="btn tiny warn" on:click={() => del(c.id)}>Slet</button>
       </div>
     {/each}
-    {#if crew.length===0}<div class="empty">Ingen medlemmer endnu.</div>{/if}
+    {#if $crew.length===0}<div class="empty">Ingen medlemmer endnu.</div>{/if}
   </div>
 </div>

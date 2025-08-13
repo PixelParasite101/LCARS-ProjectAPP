@@ -2,6 +2,8 @@
   import '../lib/styles/lcars.css';
   import LcarsHeader from '$lib/components/LcarsHeader.svelte';
   import { redAlert } from '$lib/stores/missions';
+  import { theme, type Theme } from '$lib/stores/theme';
+  const toggleTheme = () => theme.update(t => t === 'classic' ? 'nebula' : 'classic');
 </script>
 
 <LcarsHeader title="LCARS SUITE" />
@@ -16,6 +18,10 @@
     <a class="btn" href="/crew">Crew Roster</a>
     <a class="btn" href="/logs">Mission Logs</a>
     <a class="btn" href="/sensors">Sensor Analysis</a>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <span class="mono" style="color:var(--dim)">Theme</span>
+      <button class="btn ghost" on:click={toggleTheme}>{$theme==='classic' ? 'Nebula' : 'Classic'}</button>
+    </div>
   </div>
 </nav>
 

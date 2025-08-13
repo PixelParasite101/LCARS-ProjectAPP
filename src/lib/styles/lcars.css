@@ -4,6 +4,11 @@
   --mono: ui-monospace, Menlo, Consolas, monospace;
   --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
+/* Alternate theme: Nebula (cooler purples/teals, tighter radius) */
+html.theme-nebula{
+  --bg:#02020a; --line:#b78cff; --line2:#e1c1ff; --blue:#3fc7c1; --blue2:#2b9e98;
+  --text:#e9ddff; --dim:#a9b4d6; --chip:#0d0d17; --radius:14px;
+}
 *{box-sizing:border-box}
 html,body,#app{height:100%}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
@@ -21,6 +26,15 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
 .lcars-title small{color:var(--dim)}
 .lcars-meta{display:flex;align-items:center;gap:10px}
 .lcars-meta label{color:var(--dim)} .lcars-meta span{font-family:var(--mono)}
+
+/* Header Variant (Nebula): angled pads and alternate rail widths */
+html.theme-nebula .lcars-rail{gap:12px}
+html.theme-nebula .lcars-pad{height:30px;border-radius:8px 20px 8px 20px;transform:skewX(-8deg)}
+html.theme-nebula .lcars-pad.a{width:88%}
+html.theme-nebula .lcars-pad.b{width:72%}
+html.theme-nebula .lcars-pad.c{width:56%}
+html.theme-nebula .lcars-pill{height:30px;border-radius:18px;transform:skewX(-8deg);justify-content:center}
+html.theme-nebula .lcars-head{border-color:var(--blue);box-shadow:0 0 0 2px color-mix(in oklab, var(--blue) 35%, transparent) inset}
 
 /* Layout */
 .container{padding:0 18px 24px}
@@ -50,6 +64,11 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans)}
 .badge.status.active{background:#0a243b;border-color:var(--blue)}
 .badge.status.hold{background:#402a00;border-color:var(--line)}
 .badge.status.done{background:#113011;border-color:#7dbf5b}
+
+/* Nebula accents per department: brighter tints & subtle glow */
+html.theme-nebula .badge.dept.engineering{background:#2a173d;border-color:#b78cff;box-shadow:0 0 8px #b78cff33}
+html.theme-nebula .badge.dept.science{background:#0d3130;border-color:#3fc7c1;box-shadow:0 0 8px #3fc7c133}
+html.theme-nebula .badge.dept.command{background:#3b1233;border-color:#ff8ad6;box-shadow:0 0 8px #ff8ad633}
 
 /* Red Alert */
 .alert{display:flex;align-items:center;gap:12px;margin:0 18px 8px 18px;border:2px solid #ff6b6b;border-radius:18px;padding:8px 12px;background:#1a0000;animation:pulse 1.3s infinite}
